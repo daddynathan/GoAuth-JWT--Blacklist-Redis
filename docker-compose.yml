@@ -11,7 +11,7 @@ services:
    env_file:
      - app.env
    environment:
-     DB_DSN: "daddynathan:${APP_DB_PASS}@tcp(mysql:3306)/inmt?charset=utf8mb4&parseTime=true&loc=Local"
+     DB_DSN: "${MYSQL_USER}:${APP_DB_PASS}@tcp(mysql:3306)/${MYSQL_DATABASE}?charset=utf8mb4&parseTime=true&loc=Local"
      REDIS_ADDR: "redis:6379"
      REDIS_PASS: "${REDIS_PASS}" 
      APP_DB_PASS: "${APP_DB_PASS}"
@@ -44,9 +44,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}" 
-      MYSQL_DATABASE: inmt
-      MYSQL_USER: daddynathan
-      MYSQL_PASSWORD: ${APP_DB_PASS}
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./repo/migrations:/docker-entrypoint-initdb.d
@@ -60,4 +60,5 @@ services:
 
 volumes:
   mysql_data:
+
   redis_data:
